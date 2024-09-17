@@ -1,0 +1,24 @@
+{
+  "name": "movie-finder-for-source-it",
+  "version": "1.0.0",
+  "description": "service for searching movies by name and other props",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "keywords": [
+    "movie",
+    "search",
+    "websoket"
+  ],
+  "author": "Vlad",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^3.0.2",
+    "gulp": "^5.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^9.1.0",
+    "gulp-rigger": "^0.5.8"
+  }
+}

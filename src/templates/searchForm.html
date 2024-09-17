@@ -1,0 +1,90 @@
+<dialog class="fixed top-0 left-0 bg-[rgba(0,0,0,.6)] w-full h-full p-4 flex items-center justify-center scale-0 duration-300 backdrop-blur-md" id="searchFrom">
+  <button class="absolute top-[30px] right-[30px] bg-transparent text-white text-7xl" data-close-modal>
+    &times;
+  </button>
+  <form name="searchForm" class="text-black grid items-center gap-6 p-4 bg-slate-600">
+    <label class="flex flex-col w-full">
+      <span class="text-white w-full">title</span>
+      <input type="text" name="s" placeholder="Input movie name" class="w-full py-1">
+    </label>
+
+    <fieldset class=" w-full">
+      <legend class="text-white">Hotel Ratings: </legend>
+      <label for="type-1" class="">
+        Movie
+        <input id="type-1" type="radio" name="type" value="movie" class="">
+      </label>
+      <label for="type-2" class="">
+        Series
+        <input id="type-2" type="radio" name="type" value="series" class="">
+
+      </label>
+      <label  for="type-3" class="">
+        Episode
+        <input  id="type-3" type="radio" name="type"  value="episode" class="">
+      </label>
+    </fieldset>
+
+    <div class="flex flex-col  w-full">
+      <label  class="text-white block mb-4  w-full" >Price range:
+        <input class="text-white bg-transparent border-0  w-full" name="y" type="text" readonly="">
+      </label>
+      <div id="slider-range"></div>
+    </div>
+
+    <button class="bg-yellow-500 font-medium text-white py-4 px-6 duration-300 hover:bg-yellow-800">
+      Find a movie
+    </button>
+  </form>
+</dialog>
+
+<dialog class="fixed top-0 left-0 bg-[rgba(0,0,0,.6)] w-full h-full p-4 flex items-center justify-center scale-0 duration-300 backdrop-blur-md" id="thanks">
+  <button class="absolute top-[30px] right-[30px] bg-transparent text-white text-7xl" data-close-modal>
+    &times;
+  </button>
+  <h2>
+    Thanks for searching
+  </h2>
+</dialog>
+
+<script  type="module">
+  import {fetchData} from "./js/modules.js";
+  import {renderSearchResults} from "./js/modules.js";
+
+  document.addEventListener('click', function(event) {
+    if(event.target.getAttribute('data-modal')) {
+      openModal(event.target.getAttribute('data-modal'))
+    }
+    if(event.target.getAttribute('data-close-modal') === ''){
+      event.target.parentNode.classList.remove('scale-100')
+    }
+  })
+  window.addEventListener('keyup', function(event) {
+    if(event.key === 'Escape') {
+      document.querySelector('[data-modal-open]').classList.remove('scale-100')
+    }
+  })
+  function openModal(selector) {
+    const modal = document.querySelector(selector)
+    modal.classList.add('scale-100')
+    modal.setAttribute('data-modal-open', '')
+  }
+
+  document.forms.searchForm.addEventListener('submit', async function(){
+    event.preventDefault()
+
+    const searchParams = {
+      s: this.elements.s.value,
+      y: this.elements.y.value,
+      type: this.elements.type.value,
+    }
+
+    if(window.location.href === window.location.origin + '/') {
+      renderSearchResults(await fetchData(searchParams))
+    }
+
+    window.location = window.location.origin+"?requestInfo="+JSON.stringify(searchParams)
+  })
+
+</script>
+
